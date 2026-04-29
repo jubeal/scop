@@ -9,6 +9,27 @@ Object::Object(std::string filePath, Vector4 pos)
   TRANSLATION = Matrix4::translation(pos);
 
   UVS = obj.verticesTexture;
+  if (UVS.empty())
+  {
+    for(int i = 0; i < obj.vertices.size(); i++)
+    {
+      int modulo = i % 4;
+      Vector3 uv(0, 0, 0);
+      switch(modulo)
+      {
+        case 1:
+          uv = {1, 0, 0};
+          break;
+        case 2:
+          uv = {0, 1, 0};
+          break;
+        case 3:
+          uv = {1, 1, 0};
+          break;
+      }
+      UVS.push_back(uv);
+    }
+  }
 
   COLOR = Vector4(0.65f, 0.33f, 0.63f, 1.0f);
 

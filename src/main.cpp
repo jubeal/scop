@@ -4,6 +4,7 @@ int main()
 {
   try
   {
+    //initiate program
     GLFWwindow *window = createGlfwWindow();
 
     if (window == NULL)
@@ -29,6 +30,7 @@ int main()
       objectList.back().compute();
     }
 
+    //creating the custom pointer to send to inputs
     CustomWindowPointer wPointer = {
         &cam,
         0.1f,
@@ -48,18 +50,7 @@ int main()
 
     glfwSetWindowUserPointer(window, &wPointer);
 
-    // Object displayedObject("./resources/objects/42.obj", Vector4(0, 0, 0, 1));
-    // displayedObject.compute();
-
-    Texture wall("./resources/textures/container.bmp");
-    Texture face("./resources/textures/awesomeface.bmp");
-
-    // Wireframe render
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    cam.SHADER.setInt("texture1", 0);
-    cam.SHADER.setInt("texture2", 1);
-    cam.SHADER.setFloat("mixAlpha", 0.2f);
+    Texture poney("./resources/textures/poney.bmp");
 
     while (!glfwWindowShouldClose(window))
     {
@@ -78,8 +69,7 @@ int main()
 
       wPointer.objectList.at(wPointer.currentObjectIndex).rotate(wPointer.objectRotationAxis, wPointer.objectRotationSpeed, wPointer.objectRotationDirection);
 
-      wall.use();
-      face.use(GL_TEXTURE1);
+      poney.use();
 
       // Finally listen to events and display on window
       glfwPollEvents();
@@ -89,8 +79,7 @@ int main()
     cam.remove();
     for (Object obj : wPointer.objectList)
       obj.deleteBuffers();
-    wall.deleteTexture();
-    face.deleteTexture();
+    poney.deleteTexture();
 
     glfwTerminate();
 

@@ -3,11 +3,31 @@
 void processInput(GLFWwindow *window)
 {
   CustomWindowPointer *wPointer = static_cast<CustomWindowPointer *>(glfwGetWindowUserPointer(window));
+  Vector3 direction(0, 0, 0);
+
+  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    direction.Y += 0.1f;
+
+  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    direction.Y -= 0.1f;
+
+  if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    direction.X -= 0.1f;
+
+  if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    direction.X += 0.1f;
+
+  if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+    direction.Z += 0.1f;
+
+  if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+    direction.Z -= 0.1f;
+
+  wPointer->objectList.at(wPointer->currentObjectIndex).translate(direction.toVec4(1));
 
   if (!wPointer->cam->FREE_CAM)
     return;
-
-  Vector3 direction(0, 0, 0);
+  direction = {0, 0, 0};
 
   if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     direction.X += 1;
