@@ -17,6 +17,7 @@ struct CustomWindowPointer
   Vector3 objectRotationAxis;
   unsigned int currentObjectIndex;
   std::vector<Object> objectList;
+  float textureAlpha;
 };
 
 void processInput(GLFWwindow *window);

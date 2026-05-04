@@ -15,7 +15,6 @@ struct ObjectFileDatas
 {
   std::vector<Vector4> vertices;
   std::vector<unsigned int> indices;
-  std::vector<Vector3> verticesTexture;
 };
 
 #pragma pack(push, 1)

@@ -1,12 +1,14 @@
 #version 330 core
-
-flat in int vTriangleID;
 out vec4 FragColor;
 
-uniform vec4 color;
+flat in int vTriangleID;
+in vec2 TexCoord;
+
+uniform sampler2D uTexture;
+uniform float textureAlpha;
 
 void main()
 {
   float grey = 0.05 * (vTriangleID % 6);
-  FragColor = vec4(grey, grey, grey, 1.0);
+  FragColor = mix(vec4(grey, grey, grey, 1.0), texture(uTexture, TexCoord), textureAlpha);
 }

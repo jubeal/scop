@@ -17,8 +17,6 @@ public:
   std::vector<unsigned int> INDICES;
   std::vector<Vector3> UVS;
 
-  Vector4 COLOR;
-
   Matrix4 ROTATION;
   Matrix4 TRANSLATION;
 

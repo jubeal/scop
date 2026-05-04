@@ -18,10 +18,16 @@ void processInput(GLFWwindow *window)
     direction.X += 0.1f;
 
   if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
-    direction.Z += 0.1f;
+    direction.Z -= 0.1f;
 
   if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
-    direction.Z -= 0.1f;
+    direction.Z += 0.1f;
+  
+  if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS)
+    wPointer->textureAlpha = wPointer->textureAlpha > 0.0f ? wPointer->textureAlpha - 0.01f : 0.0f;
+  
+  if (glfwGetKey(window, GLFW_KEY_PERIOD) == GLFW_PRESS)
+    wPointer->textureAlpha = wPointer->textureAlpha < 1.0f ? wPointer->textureAlpha + 0.01f : 1.0f;
 
   wPointer->objectList.at(wPointer->currentObjectIndex).translate(direction.toVec4(1));
 
@@ -65,6 +71,9 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
   case GLFW_KEY_ESCAPE:
     glfwSetWindowShouldClose(window, true);
     break;
+  case GLFW_KEY_0:
+    wPointer->objectRotationSpeed = 0.0f;
+    break;
   case GLFW_KEY_1:
     wPointer->objectRotationSpeed = 0.1f;
     break;
@@ -81,12 +90,10 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
     wPointer->cam->FREE_CAM = !wPointer->cam->FREE_CAM;
     break;
   case GLFW_KEY_O:
-    if (wPointer->objectList.size() - 1 <= wPointer->currentObjectIndex)
+    if (wPointer->currentObjectIndex >= wPointer->objectList.size() - 1)
       wPointer->currentObjectIndex = 0;
     else
-    {
       wPointer->currentObjectIndex += 1;
-    }
     break;
   }
 }

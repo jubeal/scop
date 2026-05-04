@@ -70,6 +70,11 @@ void readIndicesLine(std::string line, std::vector<unsigned int> *indices)
 
   for (long unsigned int i = 2; i <= line.size(); i++)
   {
+    if (line[i] == '/')
+    {
+      logError("ERROR::PARSING::READ_INDICES_LINE:", "Parsing of obj file does not handle texture incoded files. Please provide only vertices and indices.");
+      return ;
+    }
     if ((line[i] == ' ' && line[i - 1] != ' ') || i == line.size())
     {
       faceIndices.push_back(std::stoi(number) - 1);
@@ -89,41 +94,12 @@ void readIndicesLine(std::string line, std::vector<unsigned int> *indices)
   }
 }
 
-void readVerticeTextureLine(std::string line, std::vector<Vector3> *verticesTexture)
-{
-  std::string number;
-  float verticeTexture[3] = {0.0f, 0.0f, 0.0f};
-  int coordIndex = 0;
-  for (long unsigned int i = 3; i <= line.size(); i++)
-  {
-    if ((line[i] == ' ' && line[i - 1] != ' ') || i == line.size())
-    {
-      if (coordIndex > 2)
-      {
-        logError("ERROR::FILE::READING::MISS_FORMATED_OBJ_FILE:", "too much float for a vertice texture");
-
-        throw -300;
-      }
-      verticeTexture[coordIndex] = std::stof(number);
-      coordIndex++;
-      number.clear();
-    }
-    else
-    {
-      number.push_back(line[i]);
-    }
-  }
-
-  verticesTexture->push_back(Vector3(verticeTexture));
-}
-
 ObjectFileDatas readObjectFile(std::string filePath)
 {
   std::ifstream file;
   std::string line;
   std::vector<Vector4> vertices;
   std::vector<unsigned int> indices;
-  std::vector<Vector3> verticesTexture;
 
   file.open(filePath);
 
@@ -153,10 +129,11 @@ ObjectFileDatas readObjectFile(std::string filePath)
     else if (line[0] == 'f' && line[1] == ' ')
     {
       readIndicesLine(line, &indices);
-    }
-    else if (line[0] == 'v' && line[1] == 't' && line[2] == ' ')
-    {
-      readVerticeTextureLine(line, &verticesTexture);
+      if (indices.empty())
+      {
+        logError("ERROR::PARSING::READ_OBJECT_FILE:", "Could not parse indices in " + filePath);
+        throw -300;
+      }
     }
   }
 
@@ -178,7 +155,7 @@ ObjectFileDatas readObjectFile(std::string filePath)
     v.Z -= centroid.Z;
   }
 
-  return {vertices, indices, verticesTexture};
+  return {vertices, indices};
 }
 
 ParsedBMPDatas parseBmpFile(std::string filePath, bool flipY)

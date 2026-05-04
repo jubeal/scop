@@ -29,6 +29,14 @@ int main()
       objectList.push_back(Object(file, Vector4(0, 0, 0, 1)));
       objectList.back().compute();
     }
+    
+    if (objectList.empty())
+    {
+      cam.remove();
+      glfwTerminate();
+      logError("ERROR::INITIALIZATION:", "No .obj files found. Please provide at least 1 file in ./resources/objects");
+      throw -300;
+    }
 
     //creating the custom pointer to send to inputs
     CustomWindowPointer wPointer = {
@@ -38,19 +46,12 @@ int main()
         Vector3(0, 1, 0),
         0,
         objectList,
+        0.0f,
     };
-
-    if (wPointer.objectList.empty())
-    {
-      cam.remove();
-      glfwTerminate();
-      logError("ERROR::INITIALIZATION:", "No .obj files found. Please provide at least 1 file in ./resources/objects");
-      throw -300;
-    }
 
     glfwSetWindowUserPointer(window, &wPointer);
 
-    Texture poney("./resources/textures/poney.bmp");
+    Texture chaton("./resources/textures/chaton.bmp");
 
     while (!glfwWindowShouldClose(window))
     {
@@ -62,6 +63,7 @@ int main()
       glClearColor(0.36f, 0.36f, 0.39f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+      cam.SHADER.setFloat("textureAlpha", wPointer.textureAlpha);
       // Then render everything
       cam.compute();
 
@@ -69,7 +71,7 @@ int main()
 
       wPointer.objectList.at(wPointer.currentObjectIndex).rotate(wPointer.objectRotationAxis, wPointer.objectRotationSpeed, wPointer.objectRotationDirection);
 
-      poney.use();
+      chaton.use();
 
       // Finally listen to events and display on window
       glfwPollEvents();
@@ -79,7 +81,7 @@ int main()
     cam.remove();
     for (Object obj : wPointer.objectList)
       obj.deleteBuffers();
-    poney.deleteTexture();
+    chaton.deleteTexture();
 
     glfwTerminate();
 
@@ -88,7 +90,10 @@ int main()
   catch (int error)
   {
     if (error == -300)
+    {
+      logError("ERROR:", "Error while executing scop.");
       return -1;
+    }
 
     logError("ERROR::UKNOWN:", "Error code " + std::to_string(error));
     return -1;
