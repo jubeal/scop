@@ -36,6 +36,9 @@ Shader::Shader(std::string vertexName, std::string fragmentName)
   catch (int error)
   {
     logError("ERROR::SHADER::CREATION:", vertexName + ' ' + fragmentName);
+    if (error != -300)
+      throw error;
+    throw -300;
   }
 };
 

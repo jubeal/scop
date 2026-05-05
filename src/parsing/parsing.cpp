@@ -10,7 +10,7 @@ std::string readFileToString(std::string filePath)
 
   if (!file.is_open())
   {
-    logError("ERROR::FILE::READING::CAN'T_OPEN_FILE:", filePath);
+    logError("ERROR::FILE::READING::CANNOT_OPEN_FILE:", filePath);
 
     if (file.bad())
     {

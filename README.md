@@ -21,6 +21,8 @@ Execute the computed binary
 ./scop
 ```
 
+If you want to see more object simply add your .obj file in the /resources/objects directory.
+
 ### Inputs references
 
 Here is the list of commands you can use in the program:
