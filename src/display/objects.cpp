@@ -10,7 +10,7 @@ Object::Object(std::string filePath, Vector4 pos)
   int nbVertices = VERTICES.size();
   for(int i = 0; i < nbVertices; i++)
   {
-    int modulo = i % 6;
+    int modulo = i % 4;
     Vector3 uv(0, 0, 0);
     switch(modulo)
     {
@@ -20,10 +20,7 @@ Object::Object(std::string filePath, Vector4 pos)
       case 2:
         uv = {1, 1, 0};
         break;
-      case 4:
-        uv = {1, 1, 0};
-        break;
-      case 5:
+      case 3:
         uv = {0, 1, 0};
         break;
     }
