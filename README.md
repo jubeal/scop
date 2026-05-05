@@ -2,6 +2,11 @@
 
 This is a small graphic project from 42 school. The goal was to display a .obj file in a window created with GLFW and using the graphic library OpenGL.
 
+## Requirements
+
+- [Make](https://www.gnu.org/software/make/manual/make.html)
+- [GLFW](https://www.glfw.org/)
+
 ## Compute project
 
 Just run the command
